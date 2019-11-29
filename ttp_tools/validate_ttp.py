@@ -21,11 +21,18 @@
 from __future__ import print_function
 import json
 import logging
-import cgi
 import argparse
 import io
 
 from .TTP import TableTypePattern
+
+try:
+    # Py3, cgi.escape is removed in 3.8
+    from html import escape as html_escape
+    print("using html")
+except ImportError:
+    from cgi import escape as html_escape
+    print("using cgi")
 
 
 def parse_args():
@@ -70,8 +77,8 @@ def generate_issue_list(issues, source):
     ret = []
     for issue in issues:
         ret.append(u'<li><a href="#%s" title="%s">%s</a></li>'
-                   % (issue[1], cgi.escape(source[issue[1]:issue[2]], True),
-                      cgi.escape(issue[0])))
+                   % (issue[1], html_escape(source[issue[1]:issue[2]], True),
+                      html_escape(issue[0], False)))
     return "\n".join(ret)
 
 
@@ -81,7 +88,7 @@ NEWLINE_SPAN = u'<span class="line"></span>'
 
 def _escape_lines(string):
     """ Escapes and marks newlines """
-    escaped = cgi.escape(string)
+    escaped = html_escape(string, False)
     escaped = escaped.replace(u"\n", u'\n' + NEWLINE_SPAN)
     return escaped
 
@@ -140,7 +147,7 @@ def generate_listing(issues, source):
                 issues = issues[1:]
         title = u""
         for issue in reversed(active):
-            title += u"&bull;" + cgi.escape(issue[0], True) + "\n"
+            title += u"&bull;" + html_escape(issue[0], True) + "\n"
         if title:
             o_str += (u'<span title="%s" id="%s" style="background:'
                       u' rgba(255, 0, 0, 0.%s);">' %
@@ -214,7 +221,7 @@ def main():
         fout.write(u"""
             </ol>
             <h2>Annotated Table Type Pattern %s</h2>
-            <pre>""" % (cgi.escape(args.ttp, False),))
+            <pre>""" % (html_escape(args.ttp, False),))
         # Output the JSON listing
         fout.write(generate_listing(issues, source))
 
