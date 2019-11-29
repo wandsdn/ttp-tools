@@ -1,0 +1,136 @@
+{
+    "NDM_metadata": {
+        "authority": "nz.wand",
+        "OF_protocol_version": "1.3.5",
+        "type": "TTPv1",
+        "name": "Test TTP",
+        "version": "1.0.0",
+        "doc": ["Used purely for test cases"]
+    },
+    "table_map": {
+        "First Table": 0
+    },
+    "flow_tables": [
+        {
+            "name": "First Table",
+            "flow_mod_types": [
+                {
+                    "name": "Test Simple Match",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IN_PORT", "match_type": "exact"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Simple Matchv2",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IN_PORT"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Simple All or Exact",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IN_PORT", "match_type": "all_or_exact"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Simple Prefix",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IPV4_SRC", "match_type": "prefix"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Simple Mask",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IPV4_SRC", "match_type": "mask"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Fixed Value",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IPV4_SRC", "match_type": "all_or_exact", "value": "16"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Fixed Mask",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IPV4_SRC", "match_type": "mask", "mask": "0xfa0"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Const Bitmask",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IPV4_SRC", "match_type": "mask",
+                         "const_mask": "0xf3", "const_value": "0x51"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Meta All",
+                    "priority": 1,
+                    "match_set": [
+                        {"field": "IPV4_SRC", "match_type": "exact"},
+                        {"field": "IN_PORT", "match_type": "exact"},
+                        {"field": "VLAN_VID", "match_type": "exact"}
+                    ],
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Meta Allv2",
+                    "priority": 1,
+                    "match_set": {"all": [
+                        {"field": "IPV4_SRC", "match_type": "exact"},
+                        {"field": "IN_PORT", "match_type": "exact"},
+                        {"field": "VLAN_VID", "match_type": "exact"}
+                    ]},
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Meta Zero or More",
+                    "priority": 1,
+                    "match_set": {"zero_or_more": [
+                        {"field": "IPV4_SRC", "match_type": "exact"},
+                        {"field": "IN_PORT", "match_type": "exact"},
+                        {"field": "VLAN_VID", "match_type": "exact"}
+                    ]},
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Meta One or More",
+                    "priority": 1,
+                    "match_set": {"one_or_more": [
+                        {"field": "IPV4_SRC", "match_type": "exact"},
+                        {"field": "IN_PORT", "match_type": "exact"},
+                        {"field": "VLAN_VID", "match_type": "exact"}
+                    ]},
+                    "instruction_set": []
+                },
+                {
+                    "name": "Test Meta Zero or One",
+                    "priority": 1,
+                    "match_set": {"zero_or_one": [
+                        {"field": "IPV4_SRC", "match_type": "exact"},
+                        {"field": "IN_PORT", "match_type": "exact"},
+                        {"field": "VLAN_VID", "match_type": "exact"}
+                    ]},
+                    "instruction_set": []
+                }
+            ],
+            "built_in_flow_mods": []
+        }
+    ]
+}

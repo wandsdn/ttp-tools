@@ -1,0 +1,82 @@
+{
+	"NDM_metadata": {
+		"authority": "test",
+		"type": "TTPv1",
+		"name": "TEST_CASE",
+		"version": "1.0.0",
+		"OF_protocol_version": "1.3.3",
+		"doc": ["A simple test TTP. A basic TTP hopefully without any errors.",
+                        "˙sɹoɹɹǝ ʎuɐ ʇnoɥʇᴉʍ ʎllnɟǝdoɥ Ԁ┴┴ ɔᴉsɐq ∀ ˙Ԁ┴┴ ʇsǝʇ ǝldɯᴉs ∀"]
+	},
+	"table_map": {
+		"Table1": 0,
+		"Table2": 10
+	},
+	"flow_tables": [{
+		"name": "Table1",
+		"doc": "Table1 does some ETH things",
+		"flow_mod_types": [{
+			"name": "TypeETH",
+			"match_set": [{
+				"field": "ETH_TYPE",
+				"match_type": "all_or_exact"
+			}, {
+				"field": "ETH_DST",
+				"match_type": "all_or_exact"
+			}, {
+				"field": "ETH_SRC",
+				"match_type": "all_or_exact"
+			}],
+			"instruction_set": {
+				"exactly_one": [{
+					"instruction": "GOTO_TABLE",
+					"table": "Table2"
+				}, {
+					"instruction": "APPLY_ACTIONS",
+					"actions": [{
+						"action": "OUTPUT"
+					}]
+				}]
+			}
+		}],
+		"built_in_flow_mods": [{
+			"name": "Default Drop",
+			"doc": "Drop",
+			"priority": 1,
+			"match_set": [],
+			"instruction_set": []
+		}]
+	}, {
+		"name": "Table2",
+		"doc": "Table2 does some IP things",
+		"flow_mod_types": [{
+			"name": "SomeIP",
+			"match_set": [{
+				"field": "IPV4_SRC"
+			}, {
+				"field": "IPV4_DST",
+				"match_type": "mask"
+			}],
+			"instruction_set": {
+				"zero_or_more": [{
+					"instruction": "APPLY_ACTIONS",
+					"actions": [{
+						"action": "OUTPUT"
+					}]
+				}]
+			}
+		}]
+	}, {
+		"name": "Table3",
+		"doc": "Table3 is an extra table not present in tablemap",
+		"flow_mod_types": [{
+			"name": "Block source",
+			"match_set": [{
+				"field": "IPV4_SRC"
+			}],
+			"instruction_set": [
+				{"instruction": "CLEAR_ACTIONS"}
+			]
+		}]
+	}]
+}
